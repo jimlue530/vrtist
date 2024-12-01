@@ -45,29 +45,13 @@ namespace VRtist
             // Check for an async Task to complete
             if (null != task && !task.Task.IsCompleted)
             {
-                if (e.Error)
-                {
-                    task.TrySetException(new Exception($"Failed to import {e.Filename}"));
-                }
-                else
-                {
-                    task.TrySetResult(ResolveImportedGameObject(e.Root.gameObject));
-                }
+                if (e.Error) { task.TrySetException(new Exception($"Failed to import {e.Filename}")); }
+                else { task.TrySetResult(e.Root.gameObject); }
             }
 
             // Always send the event
             if (e.Error) { return; }
-            objectLoaded.Invoke(ResolveImportedGameObject(e.Root.gameObject));
-        }
-
-        private GameObject ResolveImportedGameObject(GameObject gobject)
-        {
-            GameObject result = gobject;
-            if (result.transform.childCount == 1)
-            {
-                result = result.transform.GetChild(0).gameObject;
-            }
-            return result;
+            objectLoaded.Invoke(e.Root.gameObject);
         }
 
         public void ImportObject(string filename, Transform parent, bool synchronous = false)

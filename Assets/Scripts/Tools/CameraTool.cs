@@ -44,10 +44,13 @@ namespace VRtist
         public float zoomSpeed = 1f;
         public RenderTexture renderTexture = null;
 
+        [SerializeField] public float controllerSpeed = 0.01f;
+
         private GameObject UIObject = null;
         private Transform focalSlider = null;
         private Transform focusSlider = null;
         private Transform apertureSlider = null;
+        private Transform DZSizeSlider = null;
 
         private UICheckbox enableDepthOfFieldCheckbox = null;
         private bool enableDepthOfField = false;
@@ -70,6 +73,11 @@ namespace VRtist
         private GameObject cameraItemPrefab;
 
         private readonly List<CameraController> selectedCameraControllers = new List<CameraController>();
+
+        public void SetSpeed(float value)
+        {
+            controllerSpeed = value;
+        }
 
         protected override void OnEnable()
         {
@@ -114,6 +122,7 @@ namespace VRtist
                 showShotManagerCheckbox = panel.Find("ShowShotManager").gameObject.GetComponent<UICheckbox>();
                 showCameraPreviewCheckbox = panel.Find("ShowCameraPreview").gameObject.GetComponent<UICheckbox>();
                 showCameraFrustumCheckbox = panel.Find("ShowFrustum").gameObject.GetComponent<UICheckbox>();
+                DZSizeSlider = panel.Find("DZSize");
             }
 
             if (!dopesheetHandle)
@@ -250,6 +259,20 @@ namespace VRtist
             cameraItem.SetCameraObject(gObject);
             UIDynamicListItem item = cameraList.AddItem(cameraItem.transform);
             item.UseColliderForUI = true;
+        }
+
+        public void OnCheckTestButton(bool value)
+        {
+            //if (Bool) { print(1); }
+            //else { print(0); };
+            foreach (GameObject item in Selection.SelectedObjects)
+            {
+                DollyZoomEffect dollyzoomeffect = item.GetComponent<DollyZoomEffect>();
+                if(dollyzoomeffect.LockWidth != value)
+                {
+                    dollyzoomeffect.LockWidth = value;
+                }
+            }
         }
 
         private void OnCameraRemoved(GameObject gObject)
@@ -513,12 +536,28 @@ namespace VRtist
             }
         }
 
+        public void OnChangeDZSize(float value)
+        {
+            foreach (GameObject item in Selection.SelectedObjects)
+            {
+                DollyZoomEffect dollyzoomeffect = item.GetComponent<DollyZoomEffect>();
+                if (dollyzoomeffect != null)
+                {
+                    dollyzoomeffect.Width = 1-value/100;
+                }
+                return;
+            }
+        }
+
+
+
         protected override void UpdateUI()
         {
             // updates the panel from selection
             foreach (GameObject gobject in Selection.SelectedObjects)
             {
                 CameraController cameraController = gobject.GetComponent<CameraController>();
+                DollyZoomEffect dollyzoomeffect = gobject.GetComponent<DollyZoomEffect>();
                 if (null == cameraController)
                     continue;
 
@@ -555,6 +594,20 @@ namespace VRtist
                     apertureSlider.gameObject.SetActive(true);
                 }
 
+                sliderComp = DZSizeSlider.GetComponent<UISlider>();
+                if (sliderComp != null)
+                {
+                    sliderComp.Value = 100-dollyzoomeffect.Width*100;
+                    if (dollyzoomeffect.LookAt())
+                    {
+                        DZSizeSlider.gameObject.SetActive(true);
+                    }
+                    else
+                    {
+                        DZSizeSlider.gameObject.SetActive(false);
+                    }
+                }
+
                 // Use only the first camera.
                 return;
             }
@@ -566,6 +619,7 @@ namespace VRtist
             focalSlider.gameObject.SetActive(false);
             focusSlider.gameObject.SetActive(false);
             apertureSlider.gameObject.SetActive(false);
+            DZSizeSlider.gameObject.SetActive(false);
         }
 
         private void UpdateSelectedCameraControllers()
@@ -704,3 +758,22 @@ namespace VRtist
         }
     }
 }
+
+
+            /* 1. 左右一次是 1 
+                     * - multiply with a number就可以讓它變成連續 
+                     * - 然後調整number大小就可以調整前進後退速度
+                     * (當然接近number越大看起來就越卡)
+                     * 
+                    2. 有個問題是往左到<0的時候會有問題
+                     * 但要怎麼值域不包含-1同時又讓他顯示出現在沒有Dolly zoom? 
+                     * sol : 直接把這個東西消失不就好了，然後值域不要有 <0 的部分 
+
+                    3. 左右搖桿的時候，他不會立刻移動，會先移動一格，然後再開始連續移動?
+
+            /* 
+             * 1. 鎖定的時候: Width 固定
+             *    沒有鎖定的時候: Width 不固定
+             * 2. >>: 每frame更新UI
+             * 3. <<: 在這邊的值可以傳給DZ
+             */

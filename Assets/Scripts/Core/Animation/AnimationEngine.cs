@@ -33,7 +33,7 @@ namespace VRtist
         Preroll,
         AnimationRecording,
         Playing,
-        VideoOutput,
+        VideoOutput
     };
 
     public enum Interpolation
@@ -534,6 +534,7 @@ namespace VRtist
             animationState = AnimationState.Preroll;
             countdown.gameObject.SetActive(true);
         }
+
         public void OnToggleStartVideoOutput(bool record)
         {
             if (record)

@@ -426,9 +426,21 @@ namespace VRtist
             }
         }
 
-        private float ComputeFocal()
+        public float ValueOfFOV()
+        {
+            return cameraObject.fieldOfView;
+        }
+
+
+        public float ComputeFocal()
         {
             focal = filmHeight / (2f * Mathf.Tan(Mathf.Deg2Rad * cameraObject.fieldOfView / 2f));
+            return focal;
+        }
+
+        public float ComputeFocalByFOV(float fov)
+        {
+            focal = filmHeight / (2f * Mathf.Tan(Mathf.Deg2Rad * fov / 2f));
             return focal;
         }
 

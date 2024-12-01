@@ -187,19 +187,9 @@ namespace VRtist
         private void UpdateCheckIcon()
         {
             Image img = gameObject.GetComponentInChildren<Image>();
-            if (img != null && gameObject.activeSelf)// && isCheckable)
+            if (img != null && gameObject.activeSelf && isCheckable)
             {
-                if (isChecked)
-                {
-                    if (checkedSprite != null)
-                        img.sprite = checkedSprite;
-                }
-                else
-                {
-                    if (baseSprite != null)
-                        img.sprite = baseSprite;
-                }
-                //img.sprite = isChecked ? checkedSprite : baseSprite;
+                img.sprite = isChecked ? checkedSprite : baseSprite;
                 img.enabled = (null != img.sprite);
             }
         }

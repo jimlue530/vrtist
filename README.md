@@ -1,17 +1,12 @@
 # VRtist
 
-**Disclaimer**: This project is in alpha state and no longer developed. Do not use it to edit your production assets without a backup or you might break them.
+**Disclaimer**: This project is in alpha state and actively developed. Do not use it to edit your production assets without a backup or you might break them.
 
 ## Introduction
 
 VRtist is a Virtual Reality tool for storytelling.
 
 Directors and artists can setup a 3D scene being immersed into the virtual world. That will allow them to have a better understanding of the 3D scene.
-
-## Documentation
-
-- User documentation: https://ubisoft-vrtist.readthedocs.io/en/latest/#
-- Youtube channel: https://www.youtube.com/channel/UCD4bfXzGNI7prl01Z2BfFfw
 
 ## Main Features
 
@@ -53,7 +48,7 @@ On Windows OS, VRtist writes settings, logs and saves to the %userprofile%/AppDa
 
 ## Asset Bank
 
-VRtist is distributed with a predefined set of 3D objects.
+VRtist is ditributed with a predefined set of 3D objects.
 It also supports FBX files import from a specified directory (default: D:\VRtistData). This can be overriden in the advanced settings.
 FBX files may be exported from Blender using the following options:
 

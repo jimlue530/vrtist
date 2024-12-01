@@ -38,7 +38,7 @@ namespace VRtist
     public class UISlider : UIElement
     {
         public enum SliderDataSource { Curve, MinMax };
-
+        private CameraTool cameratool;
         public static readonly string default_widget_name = "New Slider";
         public static readonly float default_width = 0.3f;
         public static readonly float default_height = 0.03f;
@@ -513,21 +513,29 @@ namespace VRtist
             bool joyLeftJustReleased = false;
             bool joyLeftLongPush = false;
             VRInput.GetInstantJoyEvent(VRInput.primaryController, VRInput.JoyDirection.LEFT, ref joyLeftJustClicked, ref joyLeftJustReleased, ref joyLeftLongPush);
-
-            if (joyRightJustClicked || joyLeftJustClicked || joyRightLongPush || joyLeftLongPush)
+            Vector2 joystickAxis = VRInput.GetValue(VRInput.primaryController, CommonUsages.primary2DAxis);
+            if (this.gameObject.name == "DZSize")
             {
-                if (joyRightJustClicked || joyRightLongPush)
-                {
-                    Value = Mathf.Clamp(Value + 1.0f, minValue, maxValue);
-                }
-                else if (joyLeftJustClicked || joyLeftLongPush)
-                {
-                    Value = Mathf.Clamp(Value - 1.0f, minValue, maxValue);
-                }
-                onSlideEvent.Invoke(currentValue);
-                int intValue = Mathf.RoundToInt(currentValue);
-                onSlideEventInt.Invoke(intValue);
+                cameratool = GameObject.Find("Tools/Camera").GetComponent<CameraTool>();
+                Value = Mathf.Clamp(Value + joystickAxis.x*cameratool.controllerSpeed, minValue, maxValue);
             }
+            else
+            {
+                if (joyRightJustClicked || joyLeftJustClicked || joyRightLongPush || joyLeftLongPush)
+                {
+                    if (joyRightJustClicked || joyRightLongPush)
+                    {
+                        Value = Mathf.Clamp(Value + 1.0f, minValue, maxValue);
+                    }
+                    else if (joyLeftJustClicked || joyLeftLongPush)
+                    {
+                        Value = Mathf.Clamp(Value - 1.0f, minValue, maxValue);
+                    }
+                }
+            }
+            onSlideEvent.Invoke(currentValue);
+            int intValue = Mathf.RoundToInt(currentValue);
+            onSlideEventInt.Invoke(intValue);
         }
 
         public override void OnRayHoverClicked()

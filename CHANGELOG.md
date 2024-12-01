@@ -1,11 +1,3 @@
-# 0.1.2
-
-## Features
-
-- Physics tool
-- USD export (experimental)
-- Grass painting tool (experimental)
-
 # 0.1.1
 
 ## Features

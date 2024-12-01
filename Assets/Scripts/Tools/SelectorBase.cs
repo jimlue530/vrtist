@@ -1259,7 +1259,7 @@ namespace VRtist
             return objects;
         }
 
-        public static bool AddToSelection(GameObject gObject)
+        public bool AddToSelection(GameObject gObject)
         {
             // Selection is EXCLUSIVE between windows and objects.
             if (gObject.GetComponent<UIHandle>()) // if we select a UI handle, deselect all other objects first.
@@ -1325,7 +1325,7 @@ namespace VRtist
             }
         }
 
-        public static void ClearSelection()
+        public void ClearSelection()
         {
             new CommandRemoveFromSelection(new List<GameObject>(Selection.SelectedObjects)).Submit();
             Selection.ClearSelection();

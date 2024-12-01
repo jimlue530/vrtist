@@ -123,16 +123,19 @@ namespace VRtist
             linearInterpolationButton.Checked = interpolation == Interpolation.Linear;
             bezierInterpolationButton.Checked = interpolation == Interpolation.Bezier;
         }
+
         public void OnSetInterpolationConstant()
         {
             GlobalState.Settings.interpolation = Interpolation.Constant;
             UpdateInterpolation();
         }
+
         public void OnSetInterpolationLinear()
         {
             GlobalState.Settings.interpolation = Interpolation.Linear;
             UpdateInterpolation();
         }
+
         public void OnSetInterpolationBezier()
         {
             GlobalState.Settings.interpolation = Interpolation.Bezier;
@@ -255,6 +258,7 @@ namespace VRtist
                 UpdateCurrentObjectAnimation(gobject);
             }
         }
+
         void UpdateCurrentObjectAnimation(GameObject gObject)
         {
             if (null == currentObject || currentObject != gObject)
@@ -398,6 +402,7 @@ namespace VRtist
         {
             UpdateSelectionChanged();
         }
+
         protected virtual void OnAuxiliaryChanged(GameObject previousAuxiliarySelectedObject, GameObject currentAuxiliarySelectedObject)
         {
             UpdateSelectionChanged();
