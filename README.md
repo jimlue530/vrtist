@@ -1,7 +1,8 @@
 # Dolly Zoom Effect: fixed object in the frame (VRtist based)
 
-**Disclaimer**: This project is in alpha state and actively developed. Do not use it to edit your production assets without a backup or you might break them.
+**Disclaimer**: This project is a capstone project inspired by the Dolly Zoom camera technique in filmmaking. It involves developing an algorithm to maintain the proportions of an object within the frame and implementing it as part of the VRtist project.
 
 ## Introduction
 
-[![Watch the video](https://i.sstatic.net/Vp2cE.png)](https://youtu.be/7HU0yKiJagA)
+https://github.com/user-attachments/assets/f3ee365a-4c84-4d58-a955-6b81ac352075
+
