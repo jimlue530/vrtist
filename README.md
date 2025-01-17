@@ -4,4 +4,4 @@
 
 ## Introduction
 
-https://youtu.be/7HU0yKiJagA
+[![Watch the video](https://i.sstatic.net/Vp2cE.png)](https://youtu.be/7HU0yKiJagA)
